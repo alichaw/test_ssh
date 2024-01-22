@@ -1,84 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.0 (Python 3.12.1 on win32)" generated="2024-01-22T10:15:21.074892" rpa="false" schemaversion="5">
+<robot generator="Robot 7.0 (Python 3.12.1 on win32)" generated="2024-01-22T17:02:21.947702" rpa="false" schemaversion="5">
 <suite id="s1" name="Test" source="C:\Users\user\Desktop\Robot_test\E2E_check\test.robot">
-<test id="s1-t1" name="test Database" line="7">
-<kw name="Test In Web">
-<kw name="Open Browser" owner="Selenium2Library">
-<msg time="2024-01-22T10:15:21.590386" level="INFO">Opening browser 'Chrome' to base url 'http://127.0.0.1:8000/'.</msg>
-<arg>url=${WEB_URL}</arg>
-<arg>browser=${BROWSER}</arg>
-<doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2024-01-22T10:15:21.589458" elapsed="4.426502"/>
+<test id="s1-t1" name="Test Database" line="8">
+<kw name="Create SSH Tunnel">
+<kw name="Open Connection" owner="SSHLibrary">
+<arg>${SSH_HOST}</arg>
+<arg>port=${SSH_PORT}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" start="2024-01-22T17:02:22.460025" elapsed="0.001006"/>
 </kw>
-<kw name="Input Text" owner="Selenium2Library">
-<msg time="2024-01-22T10:15:26.016959" level="INFO">Typing text 'test4' into text field 'name:content'.</msg>
-<arg>name:content</arg>
-<arg>${TEXT}</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-01-22T10:15:26.016459" elapsed="0.096988"/>
+<kw name="Login" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:22.461031" level="INFO">Logging into '140.136.149.91:41631' as 'cilab'.</msg>
+<msg time="2024-01-22T17:02:23.593109" level="INFO">Read output: Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.15.0-78-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+ * Introducing Expanded Security Maintenance for Applications.
+   Receive updates to over 25,000 software packages with your
+   Ubuntu Pro subscription. Free for personal use.
+
+     https://ubuntu.com/pro
+
+442 updates can be applied immediately.
+326 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+New release '22.04.3 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+20 updates could not be installed automatically. For more details,
+see /var/log/unattended-upgrades/unattended-upgrades.log
+Your Hardware Enablement Stack (HWE) is supported until April 2025.
+*** System restart required ***
+Last login: Mon Jan 22 17:01:14 2024 from 211.72.12.7</msg>
+<arg>${SSH_USER}</arg>
+<arg>${SSH_PASS}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<status status="PASS" start="2024-01-22T17:02:22.461031" elapsed="1.132078"/>
 </kw>
-<kw name="Click Button" owner="Selenium2Library">
-<msg time="2024-01-22T10:15:26.113736" level="INFO">Clicking button 'css=input[type='submit']'.</msg>
-<arg>css=input[type='submit']</arg>
-<doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2024-01-22T10:15:26.113736" elapsed="0.223314"/>
+<kw name="Start Command" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:23.594122" level="INFO">Starting command 'ssh -L 3307:localhost:3306 -N -f -p 41631 cilab@140.136.149.91'.</msg>
+<msg time="2024-01-22T17:02:23.650485" level="INFO">${db_tunnel_id} = None</msg>
+<var>${db_tunnel_id}</var>
+<arg>ssh -L ${LOCAL_DB_PORT}:localhost:${DB_PORT} -N -f -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST}</arg>
+<doc>Starts execution of the ``command`` on the remote machine and returns immediately.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.593109" elapsed="0.057376"/>
 </kw>
-<kw name="Close Browser" owner="Selenium2Library">
-<doc>Closes the current browser.</doc>
-<status status="PASS" start="2024-01-22T10:15:26.337050" elapsed="2.319491"/>
-</kw>
-<status status="PASS" start="2024-01-22T10:15:21.588471" elapsed="7.068070"/>
-</kw>
-<kw name="Check Data Key In">
-<kw name="Connect To Database" owner="DatabaseLibrary">
-<msg time="2024-01-22T10:15:28.862256" level="INFO">Connecting using : pymysql.connect(db=test, user=root, passwd=***, host=localhost, port=3306, charset=None)</msg>
-<arg>pymysql</arg>
-<arg>${DB_NAME}</arg>
-<arg>${DB_USER}</arg>
-<arg>${DB_PASS}</arg>
-<arg>${DB_HOST}</arg>
-<arg>${DB_PORT}</arg>
-<doc>Loads the DB API 2.0 module given ``dbapiModuleName`` then uses it to
-connect to the database using provided parameters such as ``dbName``, ``dbUsername``, and ``dbPassword``.</doc>
-<status status="PASS" start="2024-01-22T10:15:28.658516" elapsed="0.231507"/>
-</kw>
-<kw name="Query" owner="DatabaseLibrary">
-<msg time="2024-01-22T10:15:28.891024" level="INFO">Executing : Query  |  SELECT * FROM texts WHERE content = 'test4'; </msg>
-<msg time="2024-01-22T10:15:28.892079" level="INFO">${result} = ((11, 'test4'),)</msg>
-<var>${result}</var>
-<arg>SELECT * FROM texts WHERE content = '${TEXT}';</arg>
-<doc>Runs a query with the ``selectStatement`` and returns the result as a list of rows.
-The type of row values depends on the database module -
-usually they are tuples or tuple-like objects.</doc>
-<status status="PASS" start="2024-01-22T10:15:28.890023" elapsed="0.002056"/>
+<kw name="Read" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:23.650485" level="INFO">${output} = </msg>
+<var>${output}</var>
+<doc>Consumes and returns everything available on the server output.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.650485" elapsed="0.000000"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2024-01-22T10:15:28.893025" level="INFO">((11, 'test4'),)</msg>
-<arg>${result}</arg>
+<msg time="2024-01-22T17:02:23.651495" level="INFO"/>
+<arg>${output}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2024-01-22T10:15:28.893025" elapsed="0.000000"/>
+<status status="PASS" start="2024-01-22T17:02:23.651495" elapsed="0.000000"/>
 </kw>
-<kw name="Disconnect From Database" owner="DatabaseLibrary">
-<msg time="2024-01-22T10:15:28.893025" level="INFO">Executing : Disconnect From Database</msg>
-<doc>Disconnects from the database.</doc>
-<status status="PASS" start="2024-01-22T10:15:28.893025" elapsed="0.000000"/>
+<kw name="Start Command" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:23.651495" level="INFO">Starting command 'ssh -L 9090:localhost:8000 -N -f -p 41631 cilab@140.136.149.91'.</msg>
+<msg time="2024-01-22T17:02:23.699442" level="INFO">${web_tunnel_id} = None</msg>
+<var>${web_tunnel_id}</var>
+<arg>ssh -L ${LOCAL_WEB_PORT}:localhost:8000 -N -f -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST}</arg>
+<doc>Starts execution of the ``command`` on the remote machine and returns immediately.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.651495" elapsed="0.047947"/>
 </kw>
-<status status="PASS" start="2024-01-22T10:15:28.657466" elapsed="0.235559"/>
+<kw name="Read" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:23.699442" level="INFO">(base) cilab@user:~$</msg>
+<msg time="2024-01-22T17:02:23.699442" level="INFO">${output} = (base) cilab@user:~$ </msg>
+<var>${output}</var>
+<doc>Consumes and returns everything available on the server output.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.699442" elapsed="0.000000"/>
 </kw>
-<status status="PASS" start="2024-01-22T10:15:21.587379" elapsed="7.306642"/>
-</test>
-<status status="PASS" start="2024-01-22T10:15:21.080113" elapsed="7.815908"/>
-</suite>
-<statistics>
-<total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
-</total>
-<tag>
-</tag>
-<suite>
-<stat pass="1" fail="0" skip="0" id="s1" name="Test">Test</stat>
-</suite>
-</statistics>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-01-22T17:02:23.700453" level="INFO">(base) cilab@user:~$ </msg>
+<arg>${output}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.700453" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-01-22T17:02:23.700453" level="INFO">${db_tunnel_id} = None</msg>
+<arg>${db_tunnel_id}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.700453" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-01-22T17:02:23.700453" level="INFO">${web_tunnel_id} = None</msg>
+<arg>${web_tunnel_id}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.700453" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-01-22T17:02:22.460025" elapsed="1.240428"/>
+</kw>
+<kw name="Start Flask">
+<kw name="Start Command" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:23.701453" level="INFO">Starting command 'conda activate db-test'.</msg>
+<arg>${CONDA_CMD}</arg>
+<doc>Starts execution of the ``command`` on the remote machine and returns immediately.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.701453" elapsed="0.034710"/>
+</kw>
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2024-01-22T17:02:23.736163" level="INFO">${flask_cmd} = export FLASK_APP=/home/cilab/Desktop/alichen/db-test/test_ssh/server.py &amp;&amp; nohup flask run &amp;</msg>
+<var>${flask_cmd}</var>
+<arg>SEPARATOR=</arg>
+<arg>export FLASK_APP=${FLASK_APP} &amp;&amp; nohup ${FLASK_RUN_COMMAND} &amp;</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.736163" elapsed="0.000929"/>
+</kw>
+<kw name="Start Command" owner="SSHLibrary">
+<msg time="2024-01-22T17:02:23.737092" level="INFO">Starting command 'sudo export FLASK_APP=/home/cilab/Desktop/alichen/db-test/test_ssh/server.py &amp;&amp; nohup flask run &amp;'.</msg>
+<msg time="2024-01-22T17:02:23.789121" level="INFO">${output} = None</msg>
+<var>${output}</var>
+<arg>${flask_cmd}</arg>
+<arg>return_stdout=True</arg>
+<doc>Starts execution of the ``command`` on the remote machine and returns immediately.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.737092" elapsed="0.052029"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-01-22T17:02:23.789121" level="INFO">None</msg>
+<arg>${output}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-01-22T17:02:23.789121" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-01-22T17:02:23.701453" elapsed="0.087668"/>
+</kw>
+<kw name="Test In Web">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2024-01-22T17:02:23.791118" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:9090/'.</msg>
+<msg time="2024-01-22T17:05:19.726497" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001821EAB1790&gt;: Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。')': /session/164ad3196a938215e5e2a293d1fbf30e/screenshot</msg>
+<msg time="2024-01-22T17:05:23.820506" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001821EAB1430&gt;: Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。')': /session/164ad3196a938215e5e2a293d1fbf30e/screenshot</msg>
 <errors>
+<msg time="2024-01-22T17:05:19.726497" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001821EAB1790&gt;: Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。')': /session/164ad3196a938215e5e2a293d1fbf30e/screenshot</msg>
+<msg time="2024-01-22T17:05:23.820506" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001821EAB1430&gt;: Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。')': /session/164ad3196a938215e5e2a293d1fbf30e/screenshot</msg>
+<msg time="2024-01-22T17:05:25.866069" level="ERROR">Execution stopped by user.</msg>
 </errors>
 </robot>
