@@ -1,0 +1,12 @@
+#SSH_HOST = remote_ssh_host
+#SSH_PORT = 22
+#SSH_USER = ssh_username
+#SSH_PASS = ssh_password
+DB_HOST = 'localhost'
+DB_PORT = 3306
+DB_NAME = 'test'
+DB_USER = 'root'
+DB_PASS = '1234'
+TEXT = 'test4'
+WEB_URL = 'http://127.0.0.1:8000/'
+BROWSER = 'Chrome'

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.12.1 on win32)" generated="2024-01-22T10:15:21.074892" rpa="false" schemaversion="5">
+<suite id="s1" name="Test" source="C:\Users\user\Desktop\Robot_test\E2E_check\test.robot">
+<test id="s1-t1" name="test Database" line="7">
+<kw name="Test In Web">
+<kw name="Open Browser" owner="Selenium2Library">
+<msg time="2024-01-22T10:15:21.590386" level="INFO">Opening browser 'Chrome' to base url 'http://127.0.0.1:8000/'.</msg>
+<arg>url=${WEB_URL}</arg>
+<arg>browser=${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2024-01-22T10:15:21.589458" elapsed="4.426502"/>
+</kw>
+<kw name="Input Text" owner="Selenium2Library">
+<msg time="2024-01-22T10:15:26.016959" level="INFO">Typing text 'test4' into text field 'name:content'.</msg>
+<arg>name:content</arg>
+<arg>${TEXT}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-01-22T10:15:26.016459" elapsed="0.096988"/>
+</kw>
+<kw name="Click Button" owner="Selenium2Library">
+<msg time="2024-01-22T10:15:26.113736" level="INFO">Clicking button 'css=input[type='submit']'.</msg>
+<arg>css=input[type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2024-01-22T10:15:26.113736" elapsed="0.223314"/>
+</kw>
+<kw name="Close Browser" owner="Selenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2024-01-22T10:15:26.337050" elapsed="2.319491"/>
+</kw>
+<status status="PASS" start="2024-01-22T10:15:21.588471" elapsed="7.068070"/>
+</kw>
+<kw name="Check Data Key In">
+<kw name="Connect To Database" owner="DatabaseLibrary">
+<msg time="2024-01-22T10:15:28.862256" level="INFO">Connecting using : pymysql.connect(db=test, user=root, passwd=***, host=localhost, port=3306, charset=None)</msg>
+<arg>pymysql</arg>
+<arg>${DB_NAME}</arg>
+<arg>${DB_USER}</arg>
+<arg>${DB_PASS}</arg>
+<arg>${DB_HOST}</arg>
+<arg>${DB_PORT}</arg>
+<doc>Loads the DB API 2.0 module given ``dbapiModuleName`` then uses it to
+connect to the database using provided parameters such as ``dbName``, ``dbUsername``, and ``dbPassword``.</doc>
+<status status="PASS" start="2024-01-22T10:15:28.658516" elapsed="0.231507"/>
+</kw>
+<kw name="Query" owner="DatabaseLibrary">
+<msg time="2024-01-22T10:15:28.891024" level="INFO">Executing : Query  |  SELECT * FROM texts WHERE content = 'test4'; </msg>
+<msg time="2024-01-22T10:15:28.892079" level="INFO">${result} = ((11, 'test4'),)</msg>
+<var>${result}</var>
+<arg>SELECT * FROM texts WHERE content = '${TEXT}';</arg>
+<doc>Runs a query with the ``selectStatement`` and returns the result as a list of rows.
+The type of row values depends on the database module -
+usually they are tuples or tuple-like objects.</doc>
+<status status="PASS" start="2024-01-22T10:15:28.890023" elapsed="0.002056"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-01-22T10:15:28.893025" level="INFO">((11, 'test4'),)</msg>
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-01-22T10:15:28.893025" elapsed="0.000000"/>
+</kw>
+<kw name="Disconnect From Database" owner="DatabaseLibrary">
+<msg time="2024-01-22T10:15:28.893025" level="INFO">Executing : Disconnect From Database</msg>
+<doc>Disconnects from the database.</doc>
+<status status="PASS" start="2024-01-22T10:15:28.893025" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-01-22T10:15:28.657466" elapsed="0.235559"/>
+</kw>
+<status status="PASS" start="2024-01-22T10:15:21.587379" elapsed="7.306642"/>
+</test>
+<status status="PASS" start="2024-01-22T10:15:21.080113" elapsed="7.815908"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Test">Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
